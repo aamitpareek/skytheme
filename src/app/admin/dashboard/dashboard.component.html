@@ -1,0 +1,16 @@
+<mat-drawer-container class="example-container" style="margin-top: 20px;">
+    <mat-drawer mode="side" opened><b class="side" [ngStyle]="{'margin-top': '20px'}">Admin</b>
+
+        <ul><a [routerLink]="['/dashboard']">
+                <li class="side"> <b> Dashboard </b></li>
+            </a></ul>
+            <ul><a [routerLink]="['/category']">
+                <li class="side"> <b> Category </b></li>
+            </a></ul>
+            <ul><a [routerLink]="['/product']">
+                <li class="side"> <b> Product </b></li>
+            </a></ul>
+
+    </mat-drawer>
+    <mat-drawer-content>Main content</mat-drawer-content>
+</mat-drawer-container>

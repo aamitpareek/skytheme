@@ -1,0 +1,231 @@
+
+<mat-drawer-container class="example-container" style="margin-top: 20px;">
+    <mat-drawer mode="side" opened><b class="side" [ngStyle]="{'margin-top': '20px'}">Admin</b>
+
+        <ul><a [routerLink]="['/dashboard']">
+                <li class="side"> <b> Dashboard </b></li>
+            </a></ul>
+            <ul><a [routerLink]="['/category']">
+                <li class="side"> <b> Category </b></li>
+            </a></ul>
+            <ul><a [routerLink]="['/product']">
+                <li class="side"> <b> Product </b></li>
+            </a></ul>
+
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-md-6">
+                    <form action="" [formGroup] = "productForm" (ngSubmit)="submitProduct()">
+                        <div class="form-group" [ngClass]="{'has-error?' : productForm.get('productName').errors &&
+                            (productForm.get('productName').touched || productForm.get('productName').dirty)}">
+                            <label for="productName"> Product Name:</label>
+                            <input type="text" class="form-control" formControlName="productName" id="productName" >
+                            <span class="text-danger" *ngIf = "productForm.get('productName').errors &&
+                            (productForm.get('productName').touched || productForm.get('productName').dirty)">
+                            <span *ngIf = "productForm.get('productName').errors?.required">
+                                Product Name is required
+                            </span>
+                            </span>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-error?' : productForm.get('productDescription').errors &&
+                            (productForm.get('productDescription').touched || productForm.get('productDescription').dirty)}">
+                            <label for="productDescription"> Product Description:</label>
+                            <input type="text" class="form-control" formControlName="productDescription" id="productDescription" >
+                            <span class="text-danger" *ngIf = "productForm.get('productDescription').errors &&
+                            (productForm.get('productDescription').touched || productForm.get('productDescription').dirty)">
+                            <span *ngIf = "productForm.get('productDescription').errors?.required">
+                                Product Description is required
+                            </span>
+                            </span>
+                        </div>
+
+                <div class="form-group" [ngClass]="{'has-error?' : productForm.get('productPrice').errors &&
+                    (productForm.get('productPrice').touched || productForm.get('productPrice').dirty)}">
+                    <label for="productPrice"> Product Price:</label>
+                    <input type="text" class="form-control" formControlName="productPrice" id="productPrice" >
+                    <span class="text-danger" *ngIf = "productForm.get('productPrice').errors &&
+                    (productForm.get('productPrice').touched || productForm.get('productPrice').dirty)">
+                    <span *ngIf = "productForm.get('productPrice').errors?.required">
+                        Product Price is required
+                    </span>
+                    </span>
+                </div>
+            <div class="form-group" [ngClass]="{'has-error?' : productForm.get('productSize').errors &&
+                (productForm.get('productSize').touched || productForm.get('productSize').dirty)}">
+                <label for="productSize"> Product Size:</label>
+                <input type="text" class="form-control" formControlName="productSize" id="productSize" >
+                <span class="text-danger" *ngIf = "productForm.get('productSize').errors &&
+                (productForm.get('productSize').touched || productForm.get('productSize').dirty)">
+                <span *ngIf = "productForm.get('productSize').errors?.required">
+                    Product Size is required
+                </span>
+                </span>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error?' : productForm.get('productBrand').errors &&
+            (productForm.get('productBrand').touched || productForm.get('productBrand').dirty)}">
+            <label for="productBrand"> Product Brand:</label>
+            <input type="text" class="form-control" formControlName="productBrand" id="productBrand" >
+            <span class="text-danger" *ngIf = "productForm.get('productBrand').errors &&
+            (productForm.get('productBrand').touched || productForm.get('productBrand').dirty)">
+            <span *ngIf = "productForm.get('productBrand').errors?.required">
+                Product Brand is required
+            </span>
+            </span>
+            </div>
+            <div class="form-group" >
+            <label for="productSpecification"> Product Specification:</label>
+            <textarea type="massage" class="form-control" formControlName="productSpecification" id="productSpecification" placeholder="Enter text here"></textarea>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error?' : productForm.get('categoryid').errors &&
+            (productForm.get('categoryid').touched || productForm.get('categoryid').dirty)}">
+            <label for="categoryid"> Category:</label>
+            <select class="form-select" aria-label="Default select example" formControlName = "categoryid">
+                <!-- <option selected>Category id</option> -->
+                <option *ngFor = "let list of getidCategory?.data" [value]="list.id">{{list.id}}. {{list.category}}</option>
+
+              </select>
+            <span class="text-danger" *ngIf = "productForm.get('categoryid').errors &&
+            (productForm.get('categoryid').touched || productForm.get('categoryid').dirty)">
+            <span *ngIf = "productForm.get('categoryid').errors?.required">
+                Category id is required
+            </span>
+            </span>
+            </div>
+            <ng-container *ngIf="show">
+                <div *ngFor="let data of image?.data" class="select-image">
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (change) = 'setchekedImage($event, data)'>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                    <img src="../assets/images/{{data.imagepath}}"
+                        [ngStyle]="{'height':'100px','width':'100px'}" alt="{{data.imagename}}">
+                        </label></div>
+                </div>
+            </ng-container>
+            <div class="check-button">
+                <button class="btn btn-success" (click)="toggle(); $event.preventDefault()"  id="bt">
+                    {{buttonName}}
+                </button></div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="col"></div>
+
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Product Description</th>
+                <th scope="col">Product Image</th>
+                <th scope="col">Product Price</th>
+                <th scope="col">Product Size</th>
+                <th scope="col">Product Brand</th>
+                <th scope="col">Product Specification</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = 'let data of getdataofProduct?.data'>
+                <th scope="row">{{data.id}}</th>
+                <td>{{data.productName}}</td>
+                <td>{{data.productDescription}}</td>
+                <td><img src='../assets/images/{{data.imagepath}}' alt="{{data.imgName}}"
+                    [ngStyle]="{'height': '50px','width':'50px'}"></td>
+                <td>{{data.productPrice}}</td>
+                <td>{{data.productSize}}</td>
+                <td>{{data.productBrand}}</td>
+                <td>{{data.productSpecification}}</td>
+                <td><button type="submit" class="btn btn-md btn-outline-danger" (click) = "deleteProduct(data.id)">Delete</button></td>
+                <!-- Model -->
+                <td>
+                    <button class="btn btn-md btn-outline-primary" (click)="open(content); updateDataId(data)" data-toggle="modal" data-target="#modal-basic-title">Update</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </mat-drawer-content>
+</mat-drawer-container>
+
+<!-- Update model -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form action="" [formGroup] = "productForm" (ngSubmit)="updateProduct()">
+            <div class="form-group">
+                <label for="productName"> Product Name:</label>
+                <input type="text" class="form-control"  [(ngModel)]="selectUpdateData.productName" formControlName="productName" value="productName" id="productName">
+            </div>
+
+            <div class="form-group" >
+                <label for="productDescription"> Product Description:</label>
+                <input type="text" class="form-control" [(ngModel)]="selectUpdateData.productDescription" formControlName="productDescription" value="productDescription" id="productDescription" >
+                
+            </div>
+
+            <div class="form-group" >
+                <label for="productPrice"> Product Price:</label>
+                <input type="text" class="form-control" [(ngModel)]="selectUpdateData.productPrice" formControlName="productPrice" value="productPrice" id="productPrice" >
+                
+            </div>
+
+<div class="form-group" >
+    <label for="productSize"> Product Size:</label>
+    <input type="text" class="form-control" [(ngModel)]="selectUpdateData.productSize" formControlName="productSize" value="productSize" id="productSize" >
+</div>
+
+<div class="form-group" >
+<label for="productBrand"> Product Brand:</label>
+<input type="text" class="form-control" [(ngModel)]="selectUpdateData.productBrand" formControlName="productBrand" value="productBrand" id="productBrand" >
+
+</div>
+
+<div class="form-group" >
+<label for="productSpecification"> Product Specification:</label>
+<textarea type="massage" class="form-control" [(ngModel)]="selectUpdateData.productSpecification" formControlName="productSpecification" value="productSpecification" id="productSpecification" placeholder="Enter text here"></textarea>
+</div>
+
+<div class="form-group" >
+<label for="categoryid"> Category:</label>
+<select class="form-select" aria-label="Default select example" [(ngModel)]="selectUpdateData.categoryid" formControlName = "categoryid">
+    <!-- <option selected>Category id</option> -->
+    <option *ngFor = "let list of getidCategory?.data" [value]="list.id">{{list.id}}. {{list.category}}</option>
+
+  </select>
+</div>
+<ng-container *ngIf="show">
+    <div *ngFor="let data of image?.data" class="select-image">
+        <div class="form-check">
+            
+        <input class="form-check-input"  type="radio" name="flexRadioDefault" [checked]="checkIFImageisSelected(data.id)" [id]="'flexRadioDefault'+data.id" (change)='setchekedImage($event, data)'>
+            <label class="form-check-label" for="flexRadioDefault1">
+        <img src="../assets/images/{{data.imagepath}}"
+            [ngStyle]="{'height':'100px','width':'100px'}" [alt]="selectUpdateData.productImage" [alt]="data.id">
+            </label></div>
+    </div>
+</ng-container>
+<div class="check-button">
+    <button class="btn btn-success" (click)="toggle(); $event.preventDefault()"  id="bt">
+        {{buttonName}}
+    </button></div>
+    <button type="submit" (click)="modal.close('Save click')" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </ng-template>
+  
+  
+

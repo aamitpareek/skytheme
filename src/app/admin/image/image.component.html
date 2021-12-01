@@ -1,0 +1,52 @@
+
+<mat-drawer-container class="example-container" style="margin-top: 20px;">
+    <mat-drawer mode="side" opened><b class="side" [ngStyle]="{'margin-top': '20px'}">Admin</b>
+
+        <ul><a [routerLink]="['/dashboard']">
+                <li class="side"> <b> Dashboard </b></li>
+            </a></ul>
+            <ul><a [routerLink]="['/category']">
+              <li class="side"> <b> Category </b></li>
+          </a></ul>
+
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="container">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form [formGroup]="imageForm" (ngSubmit) = "onSubmit()" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="imagename">Alternative Name</label>
+                      <input type="text" class="form-control" formControlName="imagename" id="imagename" aria-describedby="emailHelp" placeholder="Enter Aleternative Name">
+                    </div>
+                    <div class="form-group">
+                      <label for="imagepath">Choose Image</label>
+                      <input type="file" class="form-control-file" formControlName="imagepath" id="imagepath" (change) = "onUpload($event)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+    </div>
+    <div class="col-md-4"></div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" [ngStyle]="{'font-weight': 'bold'}">ID</th>
+          <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Alternative text for accessibility</th>
+          <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Image Path</th>
+          <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Delete</th>
+        </tr>
+      </thead>
+      <tbody *ngFor = "let data of getImageData?.data">
+        <tr>
+          <th scope="row" [ngStyle]="{'font-weight': 'bold'}">{{data.id}}</th>
+          <td>{{data.imagename}}</td>
+          <td><img src='../assets/images/{{data.imagepath}}' [alt]="data.imgName" [ngStyle]="{'height': '50px','width':'50px'}"></td>
+          <td><button type="submit" class="btn btn-danger" (click) = "deleteImage(data.id)">Delete</button></td>
+          <!-- <img src="..\skytheme\src\assets\images\imgPath-1635335431413Penguins.jpg" alt="not accessed"> -->
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    </mat-drawer-content>
+</mat-drawer-container>

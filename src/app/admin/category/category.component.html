@@ -1,0 +1,160 @@
+<mat-drawer-container class="example-container" style="margin-top: 20px;">
+    <mat-drawer mode="side" opened><b class="side" [ngStyle]="{'margin-top': '20px'}">Admin</b>
+
+        <ul><a [routerLink]="['/dashboard']">
+                <li class="side"> <b> Dashboard </b></li>
+            </a></ul>
+        <ul><a [routerLink]="['/category']">
+                <li class="side"> <b> Category </b></li>
+            </a></ul>
+        <ul><a [routerLink]="['/product']">
+            <li class="side"> <b> Product </b></li>
+        </a></ul>
+
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="container">
+            <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form action="" [formGroup]="categoryForm" (ngSubmit)="submitCategory()">
+                    <div class="form-group" [ngClass]="{'has-error?' : categoryForm.get('category').errors &&
+                        (categoryForm.get('category').touched || categoryForm.get('category').dirty)}">
+                        <label for="category">Category:</label>
+                        <input type="text" class="form-control" formControlName="category" id="category">
+                        <span class="help-block" *ngIf="categoryForm.get('category').errors &&
+                        (categoryForm.get('category').touched || categoryForm.get('category').dirty)">
+                            <span *ngIf="categoryForm.get('category').errors.required">
+                                Category is required
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error?' : categoryForm.get('parentcategory').errors &&
+                        (categoryForm.get('parentcategory').touched || categoryForm.get('parentcategory').dirty)}">
+                        <label for="parentcategory">Parentcategory:</label>
+                        <input type="text" class="form-control" formControlName="parentcategory" id="parentcategory">
+                        <span class="help-block" *ngIf="categoryForm.get('parentcategory').errors &&
+                        (categoryForm.get('parentcategory').touched || categoryForm.get('parentcategory').dirty)">
+                            <span *ngIf="categoryForm.get('parentcategory').errors.required">
+                                Parentcategory is required
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error?' : categoryForm.get('is_active').errors &&
+                        (categoryForm.get('is_active').touched || categoryForm.get('is_active').dirty)}">
+                        <label for="is_active">Is_active:</label>
+                        <select name="is_active" value="is_active" id="is_active" formControlName="is_active"
+                            class="form-control">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <span class="help-block" *ngIf="categoryForm.get('is_active').errors &&
+                            (categoryForm.get('is_active').touched || categoryForm.get('is_active').dirty)">
+                            <span *ngIf="categoryForm.get('is_active').errors.required">
+                                Is_active is required
+                            </span>
+                        </span>
+                    </div>
+                    <ng-container *ngIf="show">
+                        <div *ngFor="let data of selectImage?.data" class="select-image">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (change) = "cheked($event, data)">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                            <img src="../assets/images/{{data.imagepath}}"
+                                [ngStyle]="{'height':'100px','width':'100px'}" alt="{{data.imagename}}">
+                                </label></div>
+                        </div>
+                    </ng-container>
+                    <div class="check-button">
+                        <button class="btn btn-success" (click)="toggle(); $event.preventDefault()"  id="bt">
+                            {{buttonName}}
+                        </button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">ID</th>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Category</th>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Parentcategory</th>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Is_active</th>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Image</th>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Delete</th>
+                        <th scope="col" [ngStyle]="{'font-weight': 'bold'}">Update</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let data of getAdminCategory?.data">
+                    <tr>
+                        <th scope="row" [ngStyle]="{'font-weight': 'bold'}">{{data.id}}</th>
+                        <td>{{data.category}}</td>
+                        <td>{{data.parentcategory}}</td>
+                        <td>{{data.is_active}}</td>
+                        <td><img src='../assets/images/{{data.imagepath}}' [alt]="data.imgName"
+                                [ngStyle]="{'height': '50px','width':'50px'}"></td>
+                        <td><button type="submit" class="btn btn-md btn-outline-danger" (click) = "deleteCategory(data.id)">Delete</button></td>
+                        <td>
+                        <!-- open model -->
+                            <button class="btn btn-md btn-outline-primary" (click)="open(mymodal) ; setupdate(data)">Update</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>  
+    </mat-drawer-content>
+</mat-drawer-container>
+
+            <!-- Model -->
+            <ng-template #mymodal let-modal>
+                <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Bootstrap Modal</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" [formGroup]="categoryForm" (ngSubmit)="updateCategory()">
+                        <div class="form-group" >
+                            <label for="category">Category:</label>
+                            <input type="text" class="form-control" [(ngModel)] ="setUpdateState.category" formControlName="category" id="category">
+                        </div>
+                        <div class="form-group">
+                            <label for="parentcategory">Parentcategory:</label>
+                            <input type="text" class="form-control" [(ngModel)]="setUpdateState.parentcategory" formControlName="parentcategory" id="parentcategory">
+                           
+                        </div>
+                        <div class="form-group">
+                            <label for="is_active">Is_active:</label>
+                            <select name="is_active" value="is_active" id="is_active" [(ngModel)]="setUpdateState.is_active" formControlName="is_active"
+                                class="form-control">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <ng-container *ngIf="show">
+                            <div *ngFor="let data of selectImage?.data" class="select-image">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" [checked]="checkIFImageisSelected(data.id)" [id]="'flexRadioDefault'+data.id" (change) = "cheked($event, data)">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                <img src="../assets/images/{{data.imagepath}}"
+                                    [ngStyle]="{'height':'100px','width':'100px'}" [alt]="setUpdateState.imageid" [alt]="data.id">
+                                    </label></div>
+                            </div>
+                        </ng-container>
+                        <div class="check-button">
+                            <button class="btn btn-success" (click)="toggle(); $event.preventDefault()"  id="bt">
+                                {{buttonName}}
+                            </button>
+                            <button type="submit" class="btn btn-primary" (click)="modal.close('Save click')">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                   
+                </div>
+            </ng-template>
+
+

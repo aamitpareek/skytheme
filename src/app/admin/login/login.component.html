@@ -1,0 +1,43 @@
+<div id="login">
+    <h3 class="text-center text-white pt-5">Login form</h3>
+    <div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div id="login-box" class="col-md-12">
+                    <form id="login-form" [formGroup] = "adminLogin" class="form" action="" (ngSubmit) = "submitData(adminLogin)">
+                        <h3 class="text-center text-info">Login</h3>
+                        <div class="form-group" [ngClass]="{'has-error?' : adminLogin.get('username').errors &&
+                        (adminLogin.get('username').touched || adminLogin.get('username').dirty)}">
+                            <label for="username" class="text-info">Username:</label><br>
+                            <input type="text" formControlName="username" id="username" class="form-control">
+                            <span class="help-block" *ngIf = "adminLogin.get('username').errors &&
+                            (adminLogin.get('username').touched || adminLogin.get('username').dirty)">
+                            <span *ngIf = "adminLogin.get('username').errors.required">
+                                Username is required
+                            </span>
+                            </span>
+                        </div>
+                        
+                        <div class="form-group" [ngClass] = "{'has-error?' : adminLogin.get('password').errors &&
+                        adminLogin.get('password').touched || adminLogin.get('password').dirty}">
+                            <label for="password" class="text-info">Password:</label><br>
+                            <input type="text" formControlName="password" id="password" class="form-control">
+                            <span class="help-block" *ngIf = "adminLogin.get('password').errors &&
+                            (adminLogin.get('password').touched || adminLogin.get('password').dirty)">
+                            <span *ngIf = "adminLogin.get('password').errors.required">
+                                Password is required
+                            </span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit"  class="btn btn-info btn-lg" value="submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
